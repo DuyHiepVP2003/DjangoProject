@@ -30,17 +30,17 @@ def signin(request):
         
         if user is not None:
             auth_login(request, user)
-            return redirect('home:index')
+            return redirect('/')
         else:
             messages.info(request, 'Account Does Not Exist')
-            return redirect('home:signin')
+            return redirect('/signin')
     else:
         return render(request, 'home/signin.html')
     
 
 def signout(request):
     logout(request)
-    return redirect('home:index')
+    return redirect('/')
 
 
 def activate(request, uidb64, token):
@@ -55,11 +55,11 @@ def activate(request, uidb64, token):
         user.save()
         auth_login(request, user)
         messages.success(request, "Your Account has been activated!")
-        return redirect('home:signin')
+        return redirect('/signin')
     else:
         messages.error(request, "Activation link is invalid!")
     
-    return redirect('home:index')
+    return redirect('/index')
 
 def register(request):
     if request.method == 'POST':
@@ -71,11 +71,11 @@ def register(request):
         if password == password2:
             if User.objects.filter(email = email).exists():
                 messages.info(request, 'Email Already Used')
-                return redirect('home:register')
+                return redirect('/register')
                 
             elif User.objects.filter(username = username).exists():
                 messages.info(request, 'Username Already Used')
-                return redirect('home:register')
+                return redirect('/register')
                 
             else:
                 user = User.objects.create_user(username = username, email = email, password = password)
@@ -107,11 +107,11 @@ def register(request):
                 email.send()
                     
                 messages.success(request, "Your Account has been successfully created. We have sent you a confirmation email, please confirm your email in order to active your account")
-                return redirect('home:signin')
+                return redirect('/signin')
                 
         else:
             messages.info(request, 'Password Not The Same')
-            return redirect('home:register')
+            return redirect('/register')
             
     else:
         return render(request, 'home/register.html')
