@@ -12,6 +12,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth.decorators import login_required
+from Cart.cart import Cart
 from . token import generate_token
 
 # Create your views here.
@@ -116,9 +118,44 @@ def register(request):
     else:
         return render(request, 'home/register.html')
 
-
+@login_required(login_url="/signin")
 def checkout(request):
-    return render(request,'home/checkout.html') 
+    cart = Cart(request)
+    cart_items = cart.cart.values()
+    total_amount = calculate_total(cart_items)
+    if request.method == 'POST':
+        form_data = request.POST
+
+        # Tạo đơn hàng
+        order = Order.objects.create(
+            first_name=form_data['fname'],
+            last_name=form_data['lname'],
+            email=form_data['email'],
+            phone=form_data['phone'],
+            address=form_data['address'],
+            total_amount=total_amount
+        )
+
+        # Lưu thông tin sản phẩm trong giỏ hàng vào đơn hàng thông qua OrderItem
+        for item in cart_items:
+            order_item = OrderItem.objects.create(
+                order=order,
+                product_name=item['name'],
+                quantity=item['quantity'],
+                price=item['price']
+            )
+
+        # Xóa dữ liệu trong giỏ hàng sau khi tạo đơn hàng
+        cart.clear()
+
+        # Chuyển hướng hoặc hiển thị thông báo đơn hàng đã được tạo thành công
+        return redirect('/success_page')  # Chuyển hướng đến trang thông báo đơn hàng đã được tạo thành công
+    else:
+        # Nếu không phải là phương thức POST, render trang checkout với form thông tin đơn hàng
+        return render(request, 'home/checkout.html', {
+        'cart_items': cart_items,
+        'total': total_amount,
+        })
 
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
@@ -126,6 +163,18 @@ def detail(request, pk):
         'item': item,
     })
 
+def calculate_total(cart_items):
+    # Hàm này tính tổng giá trị các sản phẩm trong giỏ hàng
+    subtotal = 0
+    for item in cart_items:
+        subtotal += float(item['price']) * item['quantity']
+    tax_percentage = 0.05  # Thuế 5%
+    shipping_percentage = 0.05  # Phí vận chuyển 5%
+    tax = subtotal * tax_percentage
+    shipping = subtotal * shipping_percentage
+    total = subtotal + tax + shipping
+    return total
 
-
+def success_page(request):
+    return render(request, 'home/success_page.html')
 

@@ -1,26 +1,23 @@
 {% extends 'home/base.html' %}
-{% block title%}Shopping Cart{% endblock %}
+{% block title %}Shopping Cart{% endblock %}
 
 {% block content %}
-<div class="container mx-auto flex justify-right p-10 border-b border-gray-200">
-    <h1 class="text-3xl font-semibold">Shopping Cart</h1>
-</div>
+<!-- Phần hiển thị danh sách sản phẩm trong giỏ hàng -->
 <div class="container mx-auto mt-6 flex ">
     <!-- Bên trái - Danh sách sản phẩm trong giỏ -->
     <div class="w-2/3 pr-4">
-        <!-- Mỗi sản phẩm trong giỏ -->
         {% for item in cart_items %}
         <div class="bg-white p-4 mb-4 relative flex items-center border-b border-gray-300">
-            <img src="{{item.image_link}}" alt="Product" class="w-16 h-full object-cover rounded mr-4">
+            <img src="{{ item.image_link }}" alt="Product" class="w-16 h-full object-cover rounded mr-4">
             <div class="flex-1">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-semibold">{{item.name}}</h2>
+                    <h2 class="text-lg font-semibold">{{ item.name }}</h2>
                     <div class="flex items-center">
-                        <button class="w-8 h-8 border bg-gray-200"  value="increment">
+                        <button class="w-8 h-8 border bg-gray-200" value="increment">
                             <a href="{% url 'Cart:item_increment' item.item_id %}">+</a>
                         </button>
-                        <button class="w-20 h-8 border"  value="quantity">{{item.quantity}}</button>
-                        <button class="w-8 h-8 border bg-gray-200"  value="decrement">
+                        <button class="w-20 h-8 border" value="quantity">{{ item.quantity }}</button>
+                        <button class="w-8 h-8 border bg-gray-200" value="decrement">
                             <a href="{% url 'Cart:item_decrement' item.item_id %}">-</a>
                         </button>
                         <button class="ml-20 text-red-500">
@@ -28,12 +25,11 @@
                         </button>
                     </div>
                 </div>
-                <p id="total" class="text-gray-600">{{item.price}}</p>
+                <p id="total" class="text-gray-600">{{ item.price }}</p>
             </div>
         </div>
         {% endfor %}
         <!-- Thêm các sản phẩm khác trong giỏ tại đây -->
-        
     </div>
 
     <!-- Bên phải - Order Summary -->
@@ -41,43 +37,23 @@
         <h2 class="text-lg font-semibold mb-4">Order Summary</h2>
         <div class="flex justify-between items-center border-b pb-2 mb-4">
             <span>Subtotal:</span>
-            <span>$99.99</span>
+            <span>{{ subtotal|floatformat:2 }}</span>
         </div>
         <div class="flex justify-between items-center border-b pb-2 mb-4">
             <span>Shipping estimate:</span>
-            <span>$99.99</span>
+            <span>{{ shipping|floatformat:2 }}</span>
         </div>
         <div class="flex justify-between items-center border-b pb-2 mb-4">
             <span>Tax estimate:</span>
-            <span>$99.99</span>
+            <span>{{ tax|floatformat:2 }}</span>
         </div>
         <div class="flex justify-between items-center mb-4">
             <span>Total:</span>
-            <span class="text-red-500">$99.99</span>
+            <span class="text-red-500">{{ total|floatformat:2 }}</span>
         </div>
         <button class="bg-blue-500 text-white px-4 py-2 rounded">
             <a href="{% url 'home:checkout' %}">Checkout</a>
         </button>
     </div>
 </div>
-<script>
-    // Lấy các phần tử DOM cần sử dụng
-    const quantityInput = document.getElementById('quantity');
-    const totalElement = document.getElementById('total');
-
-    // Định dạng số tiền
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    });
-
-    // Tính toán và cập nhật tổng tiền khi giá trị số lượng thay đổi
-    quantityInput.addEventListener('input', function () {
-        const quantity = parseInt(quantityInput.value);
-        const pricePerProduct = 99.99; // Giá của mỗi sản phẩm
-        const total = quantity * pricePerProduct;
-        totalElement.textContent = formatter.format(total);
-    });
-</script>
-
-{% endblock%}
+{% endblock %}
