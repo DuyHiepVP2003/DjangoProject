@@ -9,21 +9,29 @@
     <!-- Bên trái - Danh sách sản phẩm trong giỏ -->
     <div class="w-2/3 pr-4">
         <!-- Mỗi sản phẩm trong giỏ -->
+        {% for item in cart_items %}
         <div class="bg-white p-4 mb-4 relative flex items-center border-b border-gray-300">
-            <img src="https://canifa.com/img/1000/1500/resize/6/k/6ks23w005-se010-m-1-u.webp" alt="Product" class="w-16 h-full object-cover rounded mr-4">
+            <img src="{{item.image_link}}" alt="Product" class="w-16 h-full object-cover rounded mr-4">
             <div class="flex-1">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-semibold">Tên sản phẩm</h2>
+                    <h2 class="text-lg font-semibold">{{item.name}}</h2>
                     <div class="flex items-center">
-                        <input id="quantity" type="number" class="w-12 h-8 text-center border" value="1" min="1">
+                        <button class="w-8 h-8 border bg-gray-200"  value="increment">
+                            <a href="{% url 'Cart:item_increment' item.item_id %}">+</a>
+                        </button>
+                        <button class="w-20 h-8 border"  value="quantity">{{item.quantity}}</button>
+                        <button class="w-8 h-8 border bg-gray-200"  value="decrement">
+                            <a href="{% url 'Cart:item_decrement' item.item_id %}">-</a>
+                        </button>
                         <button class="ml-20 text-red-500">
-                            <a href="#">Remove</a>
+                            <a href="{% url 'Cart:item_clear' item.item_id %}">Remove</a>
                         </button>
                     </div>
                 </div>
-                <p id="total" class="text-gray-600">$99.99</p>
+                <p id="total" class="text-gray-600">{{item.price}}</p>
             </div>
         </div>
+        {% endfor %}
         <!-- Thêm các sản phẩm khác trong giỏ tại đây -->
         
     </div>

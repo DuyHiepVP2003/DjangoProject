@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Category, Item, Order, OrderItem
+from .models import *
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -126,47 +126,6 @@ def detail(request, pk):
         'item': item,
     })
 
-def cart(request):
-    return render(request,'home/cart.html')
 
-def add_to_cart(request, pk):
-    item = get_object_or_404(Item, pk=pk)
-    order_item, created = OrderItem.objects.get_or_create(item = item,user = request.user, ordered = False)
-    order_qs = Order.objects.filter(user = request.user, ordered = False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if order item in order
-        if order.items.filter(item__pk = pk).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.info(request,"This item quantity was updated successfully")
-        else:
-            messages.info(request,"This item was added to your cart")
-            order_item.quantity = 1
-            order_item.save()
-            order.items.add(order_item)
-    else:
-        ordered_date = timezone.now()
-        order = Order.objects.create(user = request.user, ordered_date = ordered_date)
-        order.items.add(order_item)
-        messages.info(request,"This item was added to your cart")
-    return redirect('home:detail', pk=pk)
 
-def remove_from_cart(request,pk):
-    item = get_object_or_404(Item, pk=pk)
-    order_qs = Order.objects.filter(user = request.user, ordered = False)
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if order item in order
-        if order.items.filter(item__pk = pk).exists():
-            order_item = OrderItem.objects.get_or_create(item = item,user = request.user, ordered = False)[0]
-            order.items.remove(order_item)
-            messages.info(request,"This item was removed from your cart")
-        else:
-            messages.info(request,"This item was not in your cart")
-            return redirect('home:detail', pk=pk)
-    else:
-        messages.info(request,"You do not have an active order")
-        return redirect('home:detail', pk=pk)
-    return redirect('home:detail', pk=pk)
 
