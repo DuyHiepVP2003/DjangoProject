@@ -20,7 +20,7 @@ from . token import generate_token
 def index(request):
     items = Item.objects.all()
     return render(request,'home/index.html',{
-        'items': items,
+        'items': items[:8],
     })
 
 def signin(request):    
@@ -107,9 +107,7 @@ def register(request):
                 )
                 email.fail_silently = True
                 email.send()
-                    
-                messages.success(request, "Your Account has been successfully created. We have sent you a confirmation email, please confirm your email in order to active your account")
-                return redirect('/signin')
+                return redirect('/success_register')
                 
         else:
             messages.info(request, 'Password Not The Same')
@@ -178,3 +176,5 @@ def calculate_total(cart_items):
 def success_page(request):
     return render(request, 'home/success_page.html')
 
+def success_register(request):
+    return render(request, 'home/success_register.html')

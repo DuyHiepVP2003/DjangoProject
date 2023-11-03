@@ -12,4 +12,5 @@ urlpatterns = [
     path('detail/<int:pk>/', views.detail, name = 'detail'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('success_page/', views.success_page, name='success_page'),
+    path('success_register/', views.success_register, name='success_register'),
 ]
