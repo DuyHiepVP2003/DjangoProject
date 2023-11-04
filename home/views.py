@@ -178,3 +178,15 @@ def success_page(request):
 
 def success_register(request):
     return render(request, 'home/success_register.html')
+
+def product_page(request, category_id=None):
+    categories = Category.objects.all()
+    if category_id is not None:
+        category = Category.objects.get(id=category_id)
+        items = Item.objects.filter(category=category)
+    else:
+        # Nếu không có danh mục được chọn, hiển thị toàn bộ sản phẩm
+        items = Item.objects.all()
+        category = None  # Gán category là None để sử dụng trong template
+
+    return render(request, 'home/product.html', {'items': items, 'categories': categories})
