@@ -25,7 +25,7 @@
                         </button>
                     </div>
                 </div>
-                <p id="total" class="text-gray-600">{{ item.price }}</p>
+                <p id="total" class="text-red-600 font-bold">{{ item.price|floatformat:3 }} đ</p>
             </div>
         </div>
         {% endfor %}
@@ -37,19 +37,19 @@
         <h2 class="text-lg font-semibold mb-4">Order Summary</h2>
         <div class="flex justify-between items-center border-b pb-2 mb-4">
             <span>Subtotal:</span>
-            <span>{{ subtotal|floatformat:2 }}</span>
+            <span>{{ subtotal|floatformat:3 }}</span>
         </div>
         <div class="flex justify-between items-center border-b pb-2 mb-4">
             <span>Shipping estimate:</span>
-            <span>{{ shipping|floatformat:2 }}</span>
+            <span>{{ shipping|floatformat:3 }}</span>
         </div>
         <div class="flex justify-between items-center border-b pb-2 mb-4">
             <span>Tax estimate:</span>
-            <span>{{ tax|floatformat:2 }}</span>
+            <span>{{ tax|floatformat:3 }}</span>
         </div>
         <div class="flex justify-between items-center mb-4">
             <span>Total:</span>
-            <span class="text-red-500">{{ total|floatformat:2 }}</span>
+            <span class="text-red-500">{{ total|floatformat:3 }}</span>
         </div>
         <button class="bg-blue-500 text-white px-4 py-2 rounded">
             <a href="{% url 'home:checkout' %}">Checkout</a>

@@ -59,13 +59,13 @@
                 <div>
                     <h2 class="text-lg font-semibold">{{item.name|truncatechars:20}}</h2>
                     <p class="text-gray-600">Số lượng: {{item.quantity}}</p>
-                    <p class="text-gray-600 mb-2">Giá tiền: {{item.price}}</p>
+                    <p class="text-gray-600 mb-2">Giá tiền: {{item.price|floatformat:3}}</p>
                 </div>
             </div>
             {% endfor %}
             <!-- Thêm các mục sản phẩm trong giỏ hàng ở đây -->
         </div>
-        <p class="mt-4 text-lg font-semibold">Tổng cộng: {{total|floatformat:2}}</p>
+        <p class="mt-4 text-lg font-semibold">Tổng cộng: {{total|floatformat:3}}</p>
     </div>
 </div>
 </div>

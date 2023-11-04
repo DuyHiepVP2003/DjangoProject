@@ -21,13 +21,13 @@
             <img src="{{item.image_link}}" alt="" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
           </div>
           <div class="mt-4">
-            <div class="text-sm text-gray-700 overflow-hidden" style="max-height: 1.5em;">
+            <div class="text-md font-semibold text-gray-700 overflow-hidden" style="max-height: 1.5em;">
               <a href="{% url 'home:detail' item.id %}">
                 <span aria-hidden="true" class="absolute inset-0"></span>
                 {{item.name}}
               </a>
             </div>
-            <p class="text-sm font-medium text-gray-900">{{item.price}}</p>
+            <p class="text-sm font-bold text-red-600 mb-4">{{item.price|floatformat:3}}</p>
           </div>
         </div>    
         {% endfor %}

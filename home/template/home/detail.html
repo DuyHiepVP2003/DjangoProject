@@ -20,7 +20,7 @@
                 <p>{{item.description}}</p>
             </div>
             <div class="mt-4">
-                <p class="text-2xl text-red-600 font-semibold">{{item.price}} đ</p>
+                <p class="text-2xl text-red-600 font-semibold">{{item.price|floatformat:3}} đ</p>
             </div>
             <div class="mt-4">
                 <a href="{% url 'Cart:cart_add' item.id %}" class="bg-blue-500 text-white py-2 px-4 rounded-full">Add to cart</a>
