@@ -20,7 +20,7 @@ from . token import generate_token
 def index(request):
     items = Item.objects.all()
     return render(request,'home/index.html',{
-        'items': items[:8],
+        'items': items,
     })
 
 def signin(request):    
