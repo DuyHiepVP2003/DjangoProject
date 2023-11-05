@@ -12,14 +12,13 @@
         <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div class="flex lg:flex-1">
             <a href="{% url 'home:index' %}" class="-m-1.5 p-1.5">
-              <img class="h-20 w-auto" src="https://pos.nvncdn.net/c1bbe5-93650/store/20230526_abmkKhYF.png" alt="">
+              <img class="h-10 w-auto" src="https://pos.nvncdn.net/c1bbe5-93650/store/20230526_abmkKhYF.png" alt="">
             </a>
           </div>
           <div class="hidden lg:flex lg:gap-x-12">
             <a href="{% url 'home:index' %}" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500">Home</a>
             <a href="{% url 'home:product' %}" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500">Product</a>
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500">About</a>
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500">Contact</a>
+            <a href="{% url 'home:about' %}" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500">About</a>
           </div>
           <div class="hidden lg:flex lg:flex-1 lg:justify-end">
             <a href="{% url 'Cart:cart_detail' %}" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500"><i class="fa-solid fa-cart-shopping"></i></a>

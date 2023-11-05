@@ -19,8 +19,24 @@ from . token import generate_token
 # Create your views here.
 def index(request):
     items = Item.objects.all()
+    dress_category = Category.objects.get(name='Váy')
+    dress_items = Item.objects.filter(category=dress_category)
+    shirt_category = Category.objects.get(name='Áo thun')
+    shirt_items = Item.objects.filter(category=shirt_category)
+    jacket_category = Category.objects.get(name='Đồ mặc ngoài')
+    jacket_items = Item.objects.filter(category=jacket_category)
+    jean_category = Category.objects.get(name='Quần')
+    jean_items = Item.objects.filter(category=jean_category)
     return render(request,'home/index.html',{
-        'items': items,
+        'items': items[:8],
+        'dress_items': dress_items[:8],
+        'dress_category': dress_category,
+        'shirt_items': shirt_items[:8],
+        'shirt_category': shirt_category,
+        'jacket_items': jacket_items[:8],
+        'jacket_category': jacket_category,
+        'jean_category': jean_category,
+        'jean_items': jean_items[:8],
     })
 
 def signin(request):    
@@ -190,3 +206,6 @@ def product_page(request, category_id=None):
         category = None  # Gán category là None để sử dụng trong template
 
     return render(request, 'home/product.html', {'items': items, 'categories': categories})
+
+def about_page(request):
+    return render(request, 'home/about.html')

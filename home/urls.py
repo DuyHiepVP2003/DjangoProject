@@ -20,4 +20,5 @@ urlpatterns = [
     path('success_register/', views.success_register, name='success_register'),
     path('product', views.product_page, name='product'),
     path('category_detail/<int:category_id>/', views.product_page, name='category_detail'),
+    path('about/', views.about_page, name='about'),
 ]
